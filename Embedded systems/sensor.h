@@ -1,2 +1,1 @@
-int getNextData(); // Please implement me in Sensor.c
-
+int getNextData(FILE* file, int* currentPoint); // Please implement me in Sensor.c

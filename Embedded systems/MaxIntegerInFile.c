@@ -9,7 +9,7 @@
 
 static const char filename[] = "ECG.txt";
 
-int main() {
+int MaxIntegerInFile() {
 	int max;
 	int i1;
 	int success;
