@@ -20,7 +20,7 @@ void insertNewDataPoint(int current_point_raw, int current_point_filtered,
 		int * data_points_raw[], int * data_points_filtered[]) {
 
 	// shift data in array 1 field to the right
-	shiftArray(&data_points_raw, &data_points_filtered);
+	//shiftArray(&data_points_raw, &data_points_filtered);
 
 	data_points_raw[0] = current_point_raw;
 	data_points_filtered[0] = current_point_filtered;
@@ -59,6 +59,7 @@ int main() {
 			int ii;
 			for (ii = 0; ii < 32; ii++) {
 					printf("%i\t", rawDatapoints[ii]);
+					//printf("%i\t", filteredDatapoints[ii]);
 				}
 			printf("\n");
 
