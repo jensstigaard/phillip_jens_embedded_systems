@@ -2,41 +2,44 @@
 #include <stdlib.h>
 #include "filters.h"
 
-int lowPass(int datapoint, int fixedDatapoints[]);
-int highPass(int datapoint, int fixedDatapoints[]);
-int derivative(int datapoint, int fixedDatapoints[]);
-int squaring(int datapoint, int fixedDatapoints[]);
+int lowPass(int datapoint, int filteredDatapoints[], int rawDatapoints[]);
+int highPass(int datapoint, int filteredDatapoints[], int rawDatapoints[]);
+int derivative(int datapoint, int filteredDatapoints[], int rawDatapoints[]);
+int squaring(int datapoint, int filteredDatapoints[], int rawDatapoints[]);
 
-int runFilters(int datapoint, int fixedDatapoints[]){
+int runFilters(int datapoint, int filteredDatapoints[], int rawDatapoints[]){
 
-	int tempDatapoint = 0;
 
-	tempDatapoint = lowPass( datapoint, fixedDatapoints[]);
-	tempDatapoint = highPass( tempdatapoint, fixedDatapoints[]);
-	tempDatapoint = derivative( datapoint, fixedDatapoints[]);
-	tempDatapoint = squaring( datapoint);
 
-	return tempDatapoint;
+	lowPass(&datapoint, filteredDatapoints, rawDatapoints);
+	highPass(&datapoint, filteredDatapoints, rawDatapoints);
+	derivative(&datapoint, filteredDatapoints, rawDatapoints);
+	squaring(&datapoint);
 
-}
-
-int lowPass(int datapoint, int fixedDatapoints[]){
-
+	return datapoint;
 
 }
 
-int highPass(int datapoint, int fixedDatapoints[]){
+void lowPass(int* datapoint, int filteredDatapoints[], int rawDatapoints[]){
+
+	datapoint = 2*filteredDatapoints[0] - filteredDatapoints[1] + (datapoint - 2*rawDatapoints[5]+rawDatapoints[11])/32;
+
+}
+
+void highPass(int* datapoint, int filteredDatapoints[], int rawDatapoints[]){
+
+	datapoint = filteredDatapoints[0] - datapoint/32 + rawDatapoints[15] - rawDatapoints[16] + (rawDatapoints[31]/32);
+
+}
+
+void derivative(int* datapoint, int filteredDatapoints[], int rawDatapoints[]){
 
 
 
 }
 
-int derivative(int datapoint, int fixedDatapoints[]){
+void squaring(int* datapoint){
 
+	datapoint = datapoint * datapoint;
 
-
-}
-
-int squaring(int datapoint){
-	return datapoint*datapoint;
 }
