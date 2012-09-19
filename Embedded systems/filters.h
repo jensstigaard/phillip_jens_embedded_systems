@@ -1,1 +1,1 @@
-int runFilters(int datapoint,  int rawDatapoints[], int filteredDatapoints[]);
+void runFilters(int* datapoint);
