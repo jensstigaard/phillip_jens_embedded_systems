@@ -6,3 +6,5 @@
  */
 
 void findAllPeaks(int datapoint);
+
+void printRPeaks();

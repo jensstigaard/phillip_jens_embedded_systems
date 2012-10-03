@@ -29,6 +29,8 @@ int main() {
 
 	}
 
+	//printRPeaks();
+
 	return 0;
 
 }
