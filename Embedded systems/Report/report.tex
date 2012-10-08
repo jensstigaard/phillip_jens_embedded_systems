@@ -21,7 +21,7 @@
 	\newpage	
 	
 	\section{Introduction}
-	This rapport is part of the first assignment, in the DTU class for embedded systems.
+	This rapport is part of the first assignment, in the DTU course 02131 Embedded systems.
 	The full assignment was to create a fully functional heart monitor. This first part focuses on the program code, that is required for this heart monitor to work.
 	
 	\noindent This rapport will begin by analysing the requirements of a heart monitoring program. Thereafter we will take a look at the design choices, that we have taken, to full fill the requirements. 
@@ -31,9 +31,10 @@
 	\section{Analysis}
 	An in depth analysis of assignment:
 		\subsection{User Requirements}
-		The program is supposed  
+		The program is taking an numeric input, handles the data automatically and displays the important variables. It warns the user when critical data is retreived. The input data the program retreives has a specific interval, which makes possible to calculate the pulse of the patient, and not just the size of the input. 
 		\subsection{Functions}
 			\subsubsection{DataStream}
+				In this first assignment, we do have input data as a file, which means what it's not a live datastream. 
 			\subsubsection{Filters}
 			\subsubsection{Peakanalysis}
 			\subsubsection{Output}
@@ -44,6 +45,7 @@
 		\subsection{Filters}
 		\subsection{Peakdetection and Analysis}
 		\subsection{Output}
+			The main purpose of the ECG is to display the patient's data in a customized way that make sense for anyone who looks at the display. Furthermore, it has to be showed if the input seems to be invalid - like if there's no pulse. These cases has to be treated by the program.
 		
 	\section{Implementation}
 	This next part will go in depth with some of the more interesting parts of the code itself. How we implemented the different design decisions.  
