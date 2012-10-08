@@ -1,0 +1,33 @@
+Introduction:
+
+Analysis:
+	User Requirements:
+	Funktions:
+		DataStream:
+		Filters:
+		Peakanalysis:
+		Output:
+
+Design:
+	Overall Program Design:
+	Filter algorithems:
+	Peakdetection algorithm:
+	Peakanalysis algorithm:
+	Output:
+
+Implementations:
+	Filters:
+	Peakanalysis:
+
+Results:
+	Analysis:
+	Runtime:
+	
+Improvments:
+	Array-shifting:
+	Searchback improvment:
+
+Diskussion:
+
+Konklusion:
+		 
