@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "switchArray.h"
 #include "peak.h"
 
 void findRPeaks();
@@ -14,14 +15,10 @@ typedef struct{
 
 static int datapoints[3] = {0,0,0};
 
-static Peak peaks[200];
-static int peaksIndex = 0;
+static Peak peaks[50];
 static Peak peak;
 
-static int peakCounter = 0;
-
-static Peak RPeaks[200];
-static int RPeaksIndex = 0;
+static Peak RPeaks[50];
 
 static int RecentRR[8] = {150,150,150,150,150,150,150,150};
 static int RecentRR_OK[8] = {150,150,150,150,150,150,150,150};
@@ -41,19 +38,30 @@ static int timePast = 0;
 
 void findAllPeaks(int datapoint){
 
+
+
 	timePast++;
 
 	datapoints[2] = datapoints[1];
 	datapoints[1] = datapoints[0];
 	datapoints[0] = datapoint;
 
+
+
 	if(datapoints[1] > datapoints[2] && datapoints[1] > datapoints[0]){
 
 		peak.hight = datapoints[1];
 		peak.time = timePast;
 
-		peaks[peaksIndex] = peak;
-		peaksIndex++;
+
+		//switchArray(peaks,50);
+		int i = 49;
+		while(i > 0){
+			peaks[i] = peaks[i - 1];
+			i--;
+		}
+
+		peaks[0] = peak;
 		findRPeaks();
 
 	}
@@ -63,6 +71,7 @@ void findAllPeaks(int datapoint){
 void findRPeaks(){
 
 	if(peak.hight > threshold1){
+
 		RRCalcultaions();
 	}else{
 		NPKF = ((125*peak.hight)/1000)+((875*NPKF)/1000);
@@ -74,31 +83,19 @@ void findRPeaks(){
 
 void RRCalcultaions(){
 
-	if(RPeaksIndex > 1){
-		currentRR = peaks[peaksIndex-1].time - RPeaks[RPeaksIndex-1].time;
-	}else{
-		currentRR = 150;
-	}
-
-
+	currentRR = peaks[0].time - RPeaks[0].time;
 	if(RR_Low < currentRR && currentRR < RR_High){
 
 		storeRPeak();
 
 		SPKF = ((125*peak.hight)/1000)+((875*SPKF)/1000);
 
-		int i = 8;
-		while(i > 0){
-			RecentRR[i] = RecentRR[i - 1];
-			i--;
-		}
+		switchArray(RecentRR,8);
+
 		RecentRR[0] = currentRR;
 
-		i = 8;
-		while(i > 0){
-			RecentRR_OK[i] = RecentRR_OK[i - 1];
-			i--;
-		}
+		switchArray(RecentRR_OK,8);
+
 		RecentRR_OK[0] = currentRR;
 
 		RR_Average1 = (RecentRR[0] + RecentRR[1] + RecentRR[2] + RecentRR[3] + RecentRR[4] + RecentRR[5] + RecentRR[6] + RecentRR[7])/8;
@@ -124,28 +121,22 @@ void searchBack(){
 
 	int i = 1;
 
-	while(peaks[peaksIndex-i].hight <= threshold2){
+	while(peaks[0].hight <= threshold2){
 		i++;
 	}
 
-	peak = peaks[peaksIndex-i];
+	peak = peaks[i];
 
 	storeRPeak();
 
 	SPKF = ((125*peak.hight)/1000)+((875*SPKF)/1000);
 
-	if(RPeaksIndex > 1){
-			currentRR = RPeaks[peaksIndex-1].time - RPeaks[RPeaksIndex-2].time;
-		}else{
-			currentRR = 150;
-		}
+	currentRR = RPeaks[0].time - RPeaks[1].time;
 
 
-	int j = 8;
-	while(j > 0){
-	RecentRR[j] = RecentRR[j - 1];
-			j--;
-		}
+
+	switchArray(RecentRR,8);
+
 	RecentRR[0] = currentRR;
 	RR_Average1 = (RecentRR[0] + RecentRR[1] + RecentRR[2] + RecentRR[3] + RecentRR[4] + RecentRR[5] + RecentRR[6] + RecentRR[7])/8;
 	RR_Low = (920*RR_Average1)/1000;
@@ -161,8 +152,15 @@ void searchBack(){
 void storeRPeak(){
 
 	if(currentRR > 100){
-		RPeaks[RPeaksIndex] = peak;
-		RPeaksIndex++;
+
+		int i = 49;
+		while(i > 0){
+			RPeaks[i] = RPeaks[i - 1];
+			i--;
+		}
+
+		//switchArray(RPeaks,50);
+		RPeaks[0] = peak;
 
 		printf("Latest R-Peak value:%i\n",peak.hight);
 		printf("Latest R-Peak occurrence:%i\n",peak.time);
@@ -172,15 +170,3 @@ void storeRPeak(){
 
 }
 
-void printRPeaks(){
-
-	int i = 0;
-	while(i < RPeaksIndex){
-
-		printf("RPeak-High:%i\nRPeak-Time:%i\nRR:%i\n\n",RPeaks[i].hight,RPeaks[i].time,RPeaks[i].time-RPeaks[i-1].time);
-
-		i++;
-	}
-	printf("%i",i);
-
-}
